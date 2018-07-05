@@ -1,0 +1,57 @@
+e-shop
+-------
+    product
+        id
+        description
+        price
+        available
+    customer
+        id
+        name
+        surname
+        email
+        phone
+    address
+        id
+        customer_id
+        type
+        street
+        city
+        postcode
+    cart
+        id
+        customer_id
+        status
+    cart_item
+        id
+        cart_id
+        product_id
+        quantity
+    delivery
+        id
+        order_id
+        method
+    order
+        id
+        cart_id
+        customer_id
+        timestamp
+        delivery_id
+        status
+    invoice
+        id
+        order_id
+        type
+    warehouse
+        id
+        product_id
+        quantity
+    image
+        id
+        product_id
+
+
+
+
+
+
