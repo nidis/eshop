@@ -1,4 +1,9 @@
 package com.nidis.eshop.repositories;
 
-public class WarehouseRepository {
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
+
+@Repository
+@Transactional
+public interface WarehouseRepository {
 }
