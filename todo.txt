@@ -29,7 +29,6 @@ e-shop
         quantity
     delivery
         id
-        order_id
         method
     order
         id
