@@ -5,13 +5,15 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.List;
+import java.util.Set;
 
 @Setter
 @Getter
 @EqualsAndHashCode
 @Entity
 @Table(name = "customer")
-class Customer {
+public class Customer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -28,4 +30,7 @@ class Customer {
 
     @Column(name = "phone")
     private String phone;
+
+    @OneToMany(mappedBy = "customer")
+    private List<Address> addresses;
 }

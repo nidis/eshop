@@ -12,7 +12,7 @@ import java.sql.Timestamp;
 @EqualsAndHashCode
 @Entity
 @Table(name = "order")
-class Order {
+public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")

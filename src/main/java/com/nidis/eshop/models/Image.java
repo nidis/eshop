@@ -14,7 +14,7 @@ import java.util.Set;
 @EqualsAndHashCode
 @Entity
 @Table(name = "image")
-class Image {
+public class Image {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
