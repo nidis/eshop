@@ -6,6 +6,8 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.util.List;
+import java.util.Set;
 
 @Setter
 @Getter
@@ -14,7 +16,7 @@ import java.math.BigDecimal;
 @Table(name = "product")
 public class Product {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
 
@@ -23,4 +25,7 @@ public class Product {
 
     @Column(name = "price")
     private BigDecimal price;
+
+    @OneToMany(mappedBy = "product")
+    private List<Image> images;
 }

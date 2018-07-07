@@ -14,16 +14,16 @@ import java.util.List;
 @Table(name = "cart_item")
 public class CartItem {
     @Id
-    @GeneratedValue
-    @Column(name ="id", nullable = false, updatable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name ="id", nullable = false,  insertable = false, updatable = false)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "cart_id")
     private Cart cart;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "product_id")
     private Product product;
 
     @Column(name = "quantity")

@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
 @RequestMapping(value = "/products", produces = MediaTypes.HAL_JSON_VALUE)
 public class ProductController {
@@ -23,7 +25,7 @@ public class ProductController {
 
     @GetMapping
     public void findProducts() {
-        final Iterable<Product> products = productService.findAll();
+        final List<Product> products = productService.findAll();
 
         ResponseEntity.ok();
     }

@@ -11,9 +11,9 @@ import javax.persistence.*;
 @EqualsAndHashCode
 @Entity
 @Table(name = "delivery")
-public class Delivery {
+class Delivery {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
 

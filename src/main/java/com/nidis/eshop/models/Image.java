@@ -6,20 +6,24 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 
 @Setter
 @Getter
 @EqualsAndHashCode
 @Entity
 @Table(name = "image")
-public class Image {
+class Image {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
 
-    @Column
-    @OneToMany(fetch = FetchType.EAGER)
-    @JoinColumn(name = "id")
-    private List<Product> product;
+    @Column(name = "file_name")
+    private String fileName;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "product_id")
+    private Product product;
 }

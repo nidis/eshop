@@ -14,18 +14,17 @@ import java.util.Set;
 @Table(name = "cart")
 public class Cart {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "customer_id")
     private Customer customer;
 
-    @OneToMany()
-    @JoinTable
-    private Set<CartItem> cartItem;
-
     @Column(name = "status")
     private String status;
+
+    @OneToMany(mappedBy = "cart")
+    private Set<CartItem> cartItems;
 }
