@@ -4,10 +4,8 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.Set;
 
 @Setter
 @Getter
@@ -17,9 +15,17 @@ import javax.persistence.Table;
 public class Cart {
     @Id
     @GeneratedValue
+    @Column(name = "id")
     private Long id;
 
-    private Long customerId;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "customer_id")
+    private Customer customer;
 
+    @OneToMany()
+    @JoinTable
+    private Set<CartItem> cartItem;
+
+    @Column(name = "status")
     private String status;
 }

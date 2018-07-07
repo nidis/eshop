@@ -9,8 +9,8 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @Configuration
 @EnableAutoConfiguration
 @ComponentScan(basePackages = "com.nidis")
-@EnableJpaRepositories(basePackages = "com.nidis.repositories")
-@EntityScan(basePackages = "com.nidis.models")
+@EnableJpaRepositories(basePackages = "com.nidis.eshop.repositories")
+@EntityScan(basePackages = "com.nidis.eshop.models")
 public class Application {
 
 	public static void main(String[] args) {

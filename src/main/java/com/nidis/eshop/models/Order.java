@@ -4,10 +4,8 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.sql.Timestamp;
 
 @Setter
 @Getter
@@ -17,15 +15,24 @@ import javax.persistence.Table;
 public class Order {
     @Id
     @GeneratedValue
+    @Column(name = "id")
     private Long id;
 
-    private Long cartId;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "cart_id")
+    private Cart cart;
 
-    private Long customerId;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "customer_id")
+    private Customer customer;
 
-    private Long timestamp;
+    @Column(name = "created")
+    private Timestamp created;
 
-    private Long deliveryId;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "delivery_id")
+    private Delivery delivery;
 
+    @Column(name = "status")
     private String status;
 }
