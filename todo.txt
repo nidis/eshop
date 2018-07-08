@@ -49,7 +49,24 @@ e-shop
         id
         product_id
 
-
+------------------
+flow
+    browse products             /products?page=1        GET
+    add products to cart        /cart?product_id=1      POST
+        new cart item id
+        new cart id
+    go to cart                  /cart?id=1              GET
+        remove item             /cart/item?id=1         DELETE
+        update item             /cart/item?id=1         PUT
+        clear cart              /cart?id=1              PUT
+        new order id
+    order                       /order?id=1             GET
+        add delivery address
+        choose payment method
+        cart status
+    confirm order               /order?id=1             POST
+    confirm payment             /payment/order?id=1     POST
+    receive email with order    /email?order=1          POST
 
 
 
