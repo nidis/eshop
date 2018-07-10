@@ -32,6 +32,7 @@ create table customer(
 create table cart(
     id bigint not null auto_increment primary key,
     session_id varchar(36) null,
+    ip_address varchar(45) null,
     customer_id bigint null,
     status varchar(20) not null,
     time_created timestamp not null);

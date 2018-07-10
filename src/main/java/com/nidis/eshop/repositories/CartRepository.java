@@ -14,5 +14,5 @@ public interface CartRepository extends JpaRepository<Cart, Long> {
 
     Cart save(Cart cart);
 
-    Cart findBySessionId(String uuid);
+    Cart findBySessionIdAndIpAddress(String sessionId, String ipAddress);
 }

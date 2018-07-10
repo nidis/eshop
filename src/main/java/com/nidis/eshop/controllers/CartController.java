@@ -22,7 +22,7 @@ import java.util.UUID;
 public class CartController {
     private CartService cartService;
     private CartItemService cartItemService;
-    private static final String CART_UUID = "cart_uuid";
+    private static final String CART_SESSION_ID = "cart_session_id";
 
     @Autowired
     public CartController(CartService cartService, CartItemService cartItemService) {
@@ -30,37 +30,41 @@ public class CartController {
         this.cartItemService = cartItemService;
     }
 
-
     @PostMapping("add")
-    public void addProduct(@RequestParam(value = "product_id", required = true) Long productId, HttpServletResponse res, HttpServletRequest req) {
-        clearCookies(req, res);
+    public void addProduct(@RequestParam(value = "product_id") Long productId, HttpServletResponse res, HttpServletRequest req) {
+        //clearCookies(req, res);
 
-        Cart cart = new Cart();
-        Product product = new Product(productId);
+        String cartSessionId = getCookie(req, CART_SESSION_ID);
+        String ipAddress = req.getLocalAddr();
+        Cart cart = cartService.findBySessionIdAndIpAddress(cartSessionId, ipAddress);
 
-        String uuid = UUID.randomUUID().toString();
+        if (cart == null) {
+            cart = new Cart();
+            String sessionId = UUID.randomUUID().toString();
+            setCookie(res, CART_SESSION_ID, sessionId, 1800);
 
-        if (getCookie(req, CART_UUID) == null) {
-            setCookie(res, CART_UUID, uuid, 1800);
-
-            cart.setSessionId(uuid);
+            cart.setSessionId(sessionId);
             cart.setStatus(CartStatus.CREATED.name());
+            cart.setIpAddress(ipAddress);
+
             cartService.save(cart);
-        } else {
-            cart = cartService.findBySessionId(getCookie(req, CART_UUID));
         }
 
+        Product product = new Product(productId);
         CartItem cartItem = new CartItem(cart, product, 1);
         cartItemService.save(cartItem);
+
         log.info("new cart created with cartId: {}, productId: {}", cart.getId(), product.getId());
     }
 
     private String getCookie(HttpServletRequest req, String name) {
         Cookie[] cookies = req.getCookies();
 
-        for(Cookie cookie: cookies) {
-            if(cookie.getName().equals(name)) {
-                return cookie.getValue();
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                if (cookie.getName().equals(name)) {
+                    return cookie.getValue();
+                }
             }
         }
 
@@ -76,9 +80,11 @@ public class CartController {
     private void clearCookies(HttpServletRequest req, HttpServletResponse res) {
         Cookie[] cookies = req.getCookies();
 
-        for(Cookie cookie: cookies) {
-            cookie.setValue(null);
-            res.addCookie(cookie);
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                cookie.setValue(null);
+                res.addCookie(cookie);
+            }
         }
     }
 }

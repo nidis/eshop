@@ -23,6 +23,9 @@ public class Cart {
     @Column(name = "session_id")
     private String sessionId;
 
+    @Column(name = "ip_address")
+    private String ipAddress;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "customer_id")
     private Customer customer;

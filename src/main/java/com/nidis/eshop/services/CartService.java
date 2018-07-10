@@ -20,8 +20,8 @@ public class CartService {
         return cartRepository.findAll();
     }
 
-    public Cart findBySessionId(String uuid) {
-        return cartRepository.findBySessionId(uuid);
+    public Cart findBySessionIdAndIpAddress(String sessionId, String ipAddress) {
+        return cartRepository.findBySessionIdAndIpAddress(sessionId, ipAddress);
     }
 
     public Cart save(Cart cart) {
