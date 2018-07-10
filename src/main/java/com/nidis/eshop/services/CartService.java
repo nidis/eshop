@@ -19,4 +19,12 @@ public class CartService {
     public List<Cart> findAll() {
         return cartRepository.findAll();
     }
+
+    public Cart findBySessionId(String uuid) {
+        return cartRepository.findBySessionId(uuid);
+    }
+
+    public Cart save(Cart cart) {
+        return cartRepository.save(cart);
+    }
 }

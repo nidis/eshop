@@ -31,8 +31,10 @@ create table customer(
 
 create table cart(
     id bigint not null auto_increment primary key,
-    customer_id bigint not null,
-    status varchar(20) not null);
+    session_id varchar(36) null,
+    customer_id bigint null,
+    status varchar(20) not null,
+    time_created timestamp not null);
 
 create table cart_item(
     id bigint not null auto_increment primary key,
@@ -49,7 +51,7 @@ create table `order`(
     id bigint not null auto_increment primary key,
     cart_id bigint not null,
     customer_id bigint not null,
-    created timestamp not null,
+    time_created timestamp not null,
     delivery_id bigint not null,
     status varchar(20) not null);
 

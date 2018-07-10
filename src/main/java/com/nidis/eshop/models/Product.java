@@ -27,4 +27,8 @@ public class Product {
 
     @OneToMany(mappedBy = "product")
     private List<Image> images;
+
+    public Product(Long id) {
+        this.id = id;
+    }
 }

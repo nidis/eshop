@@ -11,4 +11,8 @@ import java.util.List;
 @Transactional
 public interface CartRepository extends JpaRepository<Cart, Long> {
     List<Cart> findAll();
+
+    Cart save(Cart cart);
+
+    Cart findBySessionId(String uuid);
 }

@@ -11,4 +11,6 @@ import java.util.List;
 @Transactional
 public interface CartItemRepository extends JpaRepository<CartItem, Long> {
     List<CartItem> findAll();
+
+    CartItem save(CartItem cartItem);
 }

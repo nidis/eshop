@@ -19,4 +19,8 @@ public class CartItemService {
     public List<CartItem> findAll() {
         return cartItemRepository.findAll();
     }
+
+    public CartItem save(CartItem cartItem) {
+        return cartItemRepository.save(cartItem);
+    }
 }

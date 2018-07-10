@@ -28,4 +28,10 @@ public class CartItem {
 
     @Column(name = "quantity")
     private int quantity;
+
+    public CartItem(Cart cart, Product product, int quantity) {
+        this.cart = cart;
+        this.product = product;
+        this.quantity = quantity;
+    }
 }

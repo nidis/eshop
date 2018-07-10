@@ -18,7 +18,7 @@ public class Invoice {
     @Column(name = "id")
     private Long id;
 
-    @OneToOne(fetch = FetchType.EAGER)
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "order_id")
     private Order order;
 
