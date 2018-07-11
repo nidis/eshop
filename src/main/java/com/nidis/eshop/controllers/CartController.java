@@ -1,14 +1,19 @@
 package com.nidis.eshop.controllers;
 
+import com.nidis.eshop.assemblers.CartAssembler;
 import com.nidis.eshop.models.Cart;
 import com.nidis.eshop.models.CartItem;
 import com.nidis.eshop.models.Product;
+import com.nidis.eshop.resources.CartResource;
 import com.nidis.eshop.services.CartItemService;
 import com.nidis.eshop.services.CartService;
 import com.nidis.eshop.utils.CartStatus;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.MediaTypes;
+import org.springframework.hateoas.Resource;
+import org.springframework.hateoas.Resources;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.Cookie;
@@ -25,16 +30,19 @@ import java.util.stream.Collectors;
 public class CartController {
     private CartService cartService;
     private CartItemService cartItemService;
+    private CartAssembler cartAssembler;
+
     private static final String CART_SESSION_ID = "cart_session_id";
 
     @Autowired
-    public CartController(CartService cartService, CartItemService cartItemService) {
+    public CartController(CartService cartService, CartItemService cartItemService, CartAssembler cartAssembler) {
         this.cartService = cartService;
         this.cartItemService = cartItemService;
+        this.cartAssembler = cartAssembler;
     }
 
-    @GetMapping("/{cartId}")
-    public void getCart(@PathVariable Long cartId) {
+    @GetMapping(value = "/{cartId}", produces = {"application/hal+json"})
+    public Resource<CartResource> getCart(@PathVariable Long cartId) {
         Optional<Cart> cart = cartService.findById(cartId);
         List<CartItem> cartItems;
         List<Product> products;
@@ -45,6 +53,9 @@ public class CartController {
                     .map(CartItem::getProduct)
                     .collect(Collectors.toList());
         }
+
+        final Resource<CartResource> wrapped = new Resource<>(cartAssembler.toResource(cart));
+        return wrapped;
     }
 
     @PostMapping("add")
