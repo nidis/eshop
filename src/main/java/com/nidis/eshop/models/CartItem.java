@@ -22,12 +22,15 @@ public class CartItem {
     @JoinColumn(name = "cart_id")
     private Cart cart;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "product_id")
     private Product product;
 
     @Column(name = "quantity")
     private int quantity;
+
+    public CartItem() {
+    }
 
     public CartItem(Cart cart, Product product, int quantity) {
         this.cart = cart;

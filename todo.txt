@@ -52,13 +52,13 @@ e-shop
 ------------------
 flow
     browse products             /products?page=1                    GET
-    add products to cart        /cart/1/item?product_id=1           POST
+    add products to cart        /cart/add?product_id=1              POST
         new cart item id
         new cart id
         ---how to identify the request?
             use http session
 
-    go to cart                  /cart?id=1                          GET
+    go to cart                  /cart/{1}                           GET
         remove item             /cart/item?id=1                     DELETE
         update item             /cart/item?id=1                     PUT
         clear cart              /cart?id=1                          PUT
@@ -73,6 +73,11 @@ flow
     confirm payment             /payment/order?id=1                 POST
     receive email with order    /email?order=1                      POST
 
+cart/{1}
+    cart/1/item?id=1
+        /product?id=56
+    cart/1/item?id=2
+    cart/1/item?id=3
 
 
 

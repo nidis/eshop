@@ -7,7 +7,7 @@ import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
-import java.util.Set;
+import java.util.List;
 
 @Setter
 @Getter
@@ -38,5 +38,5 @@ public class Cart {
     private Timestamp timeCreated;
 
     @OneToMany(mappedBy = "cart")
-    private Set<CartItem> cartItems;
+    private List<CartItem> cartItems;
 }

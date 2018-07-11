@@ -14,7 +14,10 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(value = "/cart", produces = MediaTypes.HAL_JSON_VALUE)
@@ -30,12 +33,25 @@ public class CartController {
         this.cartItemService = cartItemService;
     }
 
+    @GetMapping("/{cartId}")
+    public void getCart(@PathVariable Long cartId) {
+        Optional<Cart> cart = cartService.findById(cartId);
+        List<CartItem> cartItems;
+        List<Product> products;
+
+        if(cart.isPresent()) {
+            cartItems  = cart.get().getCartItems();
+            products = cartItems.stream()
+                    .map(CartItem::getProduct)
+                    .collect(Collectors.toList());
+        }
+    }
+
     @PostMapping("add")
     public void addProduct(@RequestParam(value = "product_id") Long productId, HttpServletResponse res, HttpServletRequest req) {
-        //clearCookies(req, res);
-
         String cartSessionId = getCookie(req, CART_SESSION_ID);
         String ipAddress = req.getLocalAddr();
+
         Cart cart = cartService.findBySessionIdAndIpAddress(cartSessionId, ipAddress);
 
         if (cart == null) {
