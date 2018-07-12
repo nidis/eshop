@@ -21,10 +21,12 @@ public class Cart {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "session_id") @JsonIgnore
+    @Column(name = "session_id")
+    @JsonIgnore
     private String sessionId;
 
-    @Column(name = "ip_address") @JsonIgnore
+    @Column(name = "ip_address")
+    @JsonIgnore
     private String ipAddress;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -34,10 +36,11 @@ public class Cart {
     @Column(name = "status")
     private String status;
 
-    @Column(name = "time_created") @JsonIgnore
+    @Column(name = "time_created")
     @CreationTimestamp
+    @JsonIgnore
     private Timestamp timeCreated;
 
-    @OneToMany(mappedBy = "cart")
+    @OneToMany(mappedBy = "cartId")
     private List<CartItem> cartItems;
 }

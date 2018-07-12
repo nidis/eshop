@@ -18,9 +18,9 @@ public class CartItem {
     @Column(name ="id", nullable = false,  insertable = false, updatable = false)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "cart_id") @JsonIgnore
-    private Cart cart;
+    @Column(name = "cart_id")
+    @JsonIgnore
+    private Long cartId;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "product_id")
@@ -32,8 +32,8 @@ public class CartItem {
     public CartItem() {
     }
 
-    public CartItem(Cart cart, Product product, int quantity) {
-        this.cart = cart;
+    public CartItem(Long cartId, Product product, int quantity) {
+        this.cartId = cartId;
         this.product = product;
         this.quantity = quantity;
     }

@@ -11,18 +11,14 @@ import com.nidis.eshop.utils.CartStatus;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.MediaTypes;
-import org.springframework.hateoas.Resource;
-import org.springframework.hateoas.Resources;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(value = "/cart", produces = MediaTypes.HAL_JSON_VALUE)
@@ -44,14 +40,14 @@ public class CartController {
     @GetMapping(value = "/{cartId}", produces = {"application/hal+json"})
     public ResponseEntity<?> getCart(@PathVariable Long cartId) {
         Optional<Cart> cart = cartService.findById(cartId);
-
-        final CartResource cartResource = cartAssembler.toResource(cart); //new Resource<>(cartAssembler.toResource(cart));
+        final CartResource cartResource = cartAssembler.toResource(cart);
 
         return ResponseEntity.ok(cartResource);
     }
 
     @PostMapping("add")
-    public void addProduct(@RequestParam(value = "product_id") Long productId, HttpServletResponse res, HttpServletRequest req) {
+    public ResponseEntity<?> addProduct(@RequestParam(value = "product_id") Long productId,
+                                        HttpServletResponse res, HttpServletRequest req) {
         String cartSessionId = getCookie(req, CART_SESSION_ID);
         String ipAddress = req.getLocalAddr();
 
@@ -70,10 +66,12 @@ public class CartController {
         }
 
         Product product = new Product(productId);
-        CartItem cartItem = new CartItem(cart, product, 1);
+        CartItem cartItem = new CartItem(cart.getId(), product, 1);
         cartItemService.save(cartItem);
 
         log.info("new cart created with cartId: {}, productId: {}", cart.getId(), product.getId());
+
+        return ResponseEntity.ok("product: " + product.getId() + ", added to cart: " + cart.getId());
     }
 
     private String getCookie(HttpServletRequest req, String name) {

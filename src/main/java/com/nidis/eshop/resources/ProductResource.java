@@ -1,22 +1,22 @@
 package com.nidis.eshop.resources;
 
-import com.nidis.eshop.models.Cart;
+import com.nidis.eshop.models.Product;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.hateoas.ResourceSupport;
 import org.springframework.hateoas.core.Relation;
 
-import java.util.Optional;
+import java.util.List;
 
-@Relation(value = "cart", collectionRelation = "carts")
+@Relation(value = "product", collectionRelation = "products")
 @Getter
 @Setter
 @EqualsAndHashCode(callSuper = false)
-public class CartResource extends ResourceSupport {
-    private Cart cart;
+public class ProductResource extends ResourceSupport {
+    private List<Product> products;
 
-    public CartResource(Optional<Cart> cart) {
+    public ProductResource(List<Product> products) {
         super();
     }
 }
