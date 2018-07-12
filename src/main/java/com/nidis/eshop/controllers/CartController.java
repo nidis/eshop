@@ -42,20 +42,11 @@ public class CartController {
     }
 
     @GetMapping(value = "/{cartId}", produces = {"application/hal+json"})
-    public Resource<CartResource> getCart(@PathVariable Long cartId) {
+    public ResponseEntity<Resource<CartResource>> getCart(@PathVariable Long cartId) {
         Optional<Cart> cart = cartService.findById(cartId);
-        List<CartItem> cartItems;
-        List<Product> products;
-
-        if(cart.isPresent()) {
-            cartItems  = cart.get().getCartItems();
-            products = cartItems.stream()
-                    .map(CartItem::getProduct)
-                    .collect(Collectors.toList());
-        }
 
         final Resource<CartResource> wrapped = new Resource<>(cartAssembler.toResource(cart));
-        return wrapped;
+        return ResponseEntity.ok(wrapped);
     }
 
     @PostMapping("add")

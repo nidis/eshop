@@ -1,5 +1,6 @@
 package com.nidis.eshop.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -18,7 +19,7 @@ public class CartItem {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "cart_id")
+    @JoinColumn(name = "cart_id") @JsonIgnore
     private Cart cart;
 
     @ManyToOne(fetch = FetchType.EAGER)

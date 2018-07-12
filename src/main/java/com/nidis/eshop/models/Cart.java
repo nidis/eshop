@@ -1,5 +1,6 @@
 package com.nidis.eshop.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -20,10 +21,10 @@ public class Cart {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "session_id")
+    @Column(name = "session_id") @JsonIgnore
     private String sessionId;
 
-    @Column(name = "ip_address")
+    @Column(name = "ip_address") @JsonIgnore
     private String ipAddress;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -33,7 +34,7 @@ public class Cart {
     @Column(name = "status")
     private String status;
 
-    @Column(name = "time_created")
+    @Column(name = "time_created") @JsonIgnore
     @CreationTimestamp
     private Timestamp timeCreated;
 
