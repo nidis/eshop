@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class CartItemService {
@@ -16,12 +17,24 @@ public class CartItemService {
         this.cartItemRepository = cartItemRepository;
     }
 
+    public Optional<CartItem> findById(Long id) {
+        return cartItemRepository.findById(id);
+    }
+
     public List<CartItem> findAll() {
         return cartItemRepository.findAll();
     }
 
+    public Optional<CartItem> findByCartIdAndProductId(Long cartId, Long productId) {
+        return cartItemRepository.findByCartIdAndProductId(cartId, productId);
+    }
+
     public CartItem save(CartItem cartItem) {
         return cartItemRepository.save(cartItem);
+    }
+
+    public void delete(CartItem cartItem) {
+        cartItemRepository.delete(cartItem);
     }
 
     public void deleteByCartId(Long cartId) {

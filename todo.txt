@@ -59,11 +59,9 @@ flow
             use http session
 
     go to cart                  /cart/{1}                           GET
-        remove item             /cart/item?id=1                     DELETE
-        update item             /cart/item?id=1                     PUT
+        remove item             /item/?cartId=1&productId=2         DELETE
+        update item             /cart/item?id=1                     PUT   //make product_id key
         clear cart              /cart?id=1                          DELETE
-                                delete * from cart_item
-                                where cart_id = 1
         new order id
 
     ----after authorization
@@ -74,7 +72,7 @@ flow
     confirm order               /order?id=1                         POST
     confirm payment             /payment/order?id=1                 POST
     receive email with order    /email?order=1                      POST
-
+----------------
 cart/{1}
     cart/1/item?id=1
         /product?id=56
