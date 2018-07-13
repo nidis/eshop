@@ -25,8 +25,12 @@ public class CartService {
         return cartRepository.findById(id);
     }
 
-    public Cart findBySessionIdAndIpAddress(String sessionId, String ipAddress) {
+    public Optional<Cart> findBySessionIdAndIpAddress(String sessionId, String ipAddress) {
         return cartRepository.findBySessionIdAndIpAddress(sessionId, ipAddress);
+    }
+
+    public Optional<Cart> findByIdAndSessionIdAndIpAddress(Long cartId, String sessionId, String ipAddress) {
+        return cartRepository.findByIdAndSessionIdAndIpAddress(cartId, sessionId, ipAddress);
     }
 
     public Cart save(Cart cart) {

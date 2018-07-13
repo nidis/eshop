@@ -11,6 +11,7 @@ import com.nidis.eshop.utils.CartStatus;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.MediaTypes;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -38,11 +39,39 @@ public class CartController {
     }
 
     @GetMapping(value = "/{cartId}", produces = {"application/hal+json"})
-    public ResponseEntity<?> getCart(@PathVariable Long cartId) {
-        Optional<Cart> cart = cartService.findById(cartId);
+    public ResponseEntity<?> getCart(@PathVariable Long cartId, HttpServletRequest req) {
+        String cartSessionId = getCookie(req, CART_SESSION_ID);
+        String ipAddress = req.getLocalAddr();
+
+        Optional<Cart> cart = cartService.findByIdAndSessionIdAndIpAddress(cartId, cartSessionId, ipAddress);
+
+        if(!cart.isPresent()) {
+            log.info("cart is not found");
+            return ResponseEntity.ok(HttpStatus.NOT_FOUND);
+        }
+
         final CartResource cartResource = cartAssembler.toResource(cart);
 
+        log.info("cart with id: {} is found", cart.get().getId());
         return ResponseEntity.ok(cartResource);
+    }
+
+    @DeleteMapping(value = "/{cartId}", produces = {"application/hal+json"})
+    public ResponseEntity<?> clearCart(@PathVariable Long cartId, HttpServletRequest req) {
+        String cartSessionId = getCookie(req, CART_SESSION_ID);
+        String ipAddress = req.getLocalAddr();
+
+        Optional<Cart> cart = cartService.findByIdAndSessionIdAndIpAddress(cartId, cartSessionId, ipAddress);
+
+        if(cart.isPresent()) {
+            cartItemService.deleteByCartId(cartId);
+        } else {
+            log.info("cart is not found");
+            return ResponseEntity.ok(HttpStatus.NOT_FOUND);
+        }
+
+        log.info("cart has been cleared");
+        return ResponseEntity.ok(HttpStatus.OK);
     }
 
     @PostMapping("add")
@@ -51,27 +80,27 @@ public class CartController {
         String cartSessionId = getCookie(req, CART_SESSION_ID);
         String ipAddress = req.getLocalAddr();
 
-        Cart cart = cartService.findBySessionIdAndIpAddress(cartSessionId, ipAddress);
+        Optional<Cart> cart = cartService.findBySessionIdAndIpAddress(cartSessionId, ipAddress);
 
-        if (cart == null) {
-            cart = new Cart();
+        if (!cart.isPresent()) {
+            cart = Optional.of(new Cart());
             String sessionId = UUID.randomUUID().toString();
             setCookie(res, CART_SESSION_ID, sessionId, 1800);
 
-            cart.setSessionId(sessionId);
-            cart.setStatus(CartStatus.CREATED.name());
-            cart.setIpAddress(ipAddress);
+            cart.get().setSessionId(sessionId);
+            cart.get().setStatus(CartStatus.CREATED.name());
+            cart.get().setIpAddress(ipAddress);
 
-            cartService.save(cart);
+            cartService.save(cart.get());
         }
 
         Product product = new Product(productId);
-        CartItem cartItem = new CartItem(cart.getId(), product, 1);
+        CartItem cartItem = new CartItem(cart.get().getId(), product, 1);
         cartItemService.save(cartItem);
 
-        log.info("new cart created with cartId: {}, productId: {}", cart.getId(), product.getId());
+        log.info("new cart created with cartId: {}, productId: {}", cart.get().getId(), product.getId());
 
-        return ResponseEntity.ok("product: " + product.getId() + ", added to cart: " + cart.getId());
+        return ResponseEntity.ok(HttpStatus.OK);
     }
 
     private String getCookie(HttpServletRequest req, String name) {

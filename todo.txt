@@ -61,7 +61,9 @@ flow
     go to cart                  /cart/{1}                           GET
         remove item             /cart/item?id=1                     DELETE
         update item             /cart/item?id=1                     PUT
-        clear cart              /cart?id=1                          PUT
+        clear cart              /cart?id=1                          DELETE
+                                delete * from cart_item
+                                where cart_id = 1
         new order id
 
     ----after authorization

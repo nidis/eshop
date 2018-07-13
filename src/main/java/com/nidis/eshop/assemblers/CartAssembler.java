@@ -25,7 +25,7 @@ public class CartAssembler extends ResourceAssemblerSupport<Optional<Cart>, Cart
 
         cart.ifPresent(cartResource::setCart);
 
-        Link selfLink = linkTo(methodOn(CartController.class).getCart(cart.get().getId())).withSelfRel();
+        Link selfLink = linkTo(methodOn(CartController.class).getCart(cart.get().getId(), null)).withSelfRel();
 
         cartResource.add(selfLink);
 

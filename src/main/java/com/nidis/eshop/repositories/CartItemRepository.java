@@ -10,7 +10,6 @@ import java.util.List;
 @Repository
 @Transactional
 public interface CartItemRepository extends JpaRepository<CartItem, Long> {
-    List<CartItem> findAll();
 
-    CartItem save(CartItem cartItem);
+    void deleteByCartId(Long cartId);
 }
