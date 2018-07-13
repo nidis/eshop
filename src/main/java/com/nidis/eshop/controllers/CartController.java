@@ -56,6 +56,21 @@ public class CartController {
         return ResponseEntity.ok(cartResource);
     }
 
+    @DeleteMapping(value = "/{cartId}/item", produces = {"application/hal+json"})   //cart/1/item?id=2
+    public ResponseEntity<?> removeItem(@RequestParam(value = "id") Long id, @PathVariable(value = "cartId") Long cartId) {
+        Optional<CartItem> cartItem = cartItemService.findByIdAndCartId(id, cartId);
+
+        if(cartItem.isPresent()) {
+            log.info("item deleted");
+            cartItemService.delete(cartItem.get());
+        } else {
+            log.info("item not found");
+            return ResponseEntity.ok(HttpStatus.NOT_FOUND);
+        }
+
+        return ResponseEntity.ok(HttpStatus.OK);
+    }
+
     @DeleteMapping(value = "/{cartId}", produces = {"application/hal+json"})
     public ResponseEntity<?> clearCart(@PathVariable Long cartId, HttpServletRequest req) {
         String cartSessionId = getCookie(req, CART_SESSION_ID);

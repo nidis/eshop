@@ -25,8 +25,8 @@ public class CartItemService {
         return cartItemRepository.findAll();
     }
 
-    public Optional<CartItem> findByCartIdAndProductId(Long cartId, Long productId) {
-        return cartItemRepository.findByCartIdAndProductId(cartId, productId);
+    public Optional<CartItem> findByIdAndCartId(Long id, Long cartId) {
+        return cartItemRepository.findByIdAndCartId(id, cartId);
     }
 
     public CartItem save(CartItem cartItem) {
