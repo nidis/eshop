@@ -20,10 +20,9 @@ public class Image {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "file_name")
-    private String fileName;
+    @Column(name = "file_location")
+    private String fileLocation;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "product_id")
-    private Product product;
+    @Column(name = "product_id")
+    private Long productId;
 }

@@ -25,7 +25,7 @@ public class Product {
     @Column(name = "price")
     private BigDecimal price;
 
-    @OneToMany(mappedBy = "product")
+    @OneToMany(mappedBy = "productId")
     private List<Image> images;
 
     public Product() {}

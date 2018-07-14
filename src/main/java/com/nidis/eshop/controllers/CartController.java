@@ -100,7 +100,7 @@ public class CartController {
         if (!cart.isPresent()) {
             cart = Optional.of(new Cart());
             String sessionId = UUID.randomUUID().toString();
-            setCookie(res, CART_SESSION_ID, sessionId, 1800);
+            setCookie(res, CART_SESSION_ID, sessionId, 7);
 
             cart.get().setSessionId(sessionId);
             cart.get().setStatus(CartStatus.CREATED.name());
@@ -132,9 +132,9 @@ public class CartController {
         return null;
     }
 
-    private void setCookie(HttpServletResponse res, String name, String value, int maxAge) {
+    private void setCookie(HttpServletResponse res, String name, String value, int maxDays) {
         Cookie cookieUuid = new Cookie(name, value);
-        cookieUuid.setMaxAge(maxAge);
+        cookieUuid.setMaxAge(maxDays * 24 * 3_600_000);
         res.addCookie(cookieUuid);
     }
 

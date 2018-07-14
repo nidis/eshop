@@ -68,7 +68,7 @@ create table warehouse(
 
 create table image(
     id bigint not null auto_increment primary key,
-    file_name varchar(400) null,
+    file_location varchar(400) null,
     product_id bigint not null);
 
 alter table address add foreign key (customer_id) references customer(id);

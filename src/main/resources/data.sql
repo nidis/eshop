@@ -16,3 +16,13 @@ insert into `customer` (`name`, `surname`, `email`, `phone`) values ('John', 'Sm
 ---
 insert into `address` (`customer_id`, `type`, `street`, `city`, `postcode`) values (1, 'shipping', 'Kifisias 34', 'Athens', '123 45');
 
+---
+INSERT INTO `eshop`.`image` (`file_location`, `product_id`) VALUES ('https://images-na.ssl-images-amazon.com/images/I/81LkG4uqmpL._SL1500_.jpg', '1');
+INSERT INTO `eshop`.`image` (`file_location`, `product_id`) VALUES ('https://images-na.ssl-images-amazon.com/images/I/81AhzmY7AyL._SL1500_.jpg', '1');
+INSERT INTO `eshop`.`image` (`file_location`, `product_id`) VALUES ('https://images-na.ssl-images-amazon.com/images/I/7158fqg5yyL._SL1500_.jpg', '1');
+INSERT INTO `eshop`.`image` (`file_location`, `product_id`) VALUES ('https://images-na.ssl-images-amazon.com/images/I/71gsjHr5y-L._SL1500_.jpg', '1');
+INSERT INTO `eshop`.`image` (`file_location`, `product_id`) VALUES ('https://images-na.ssl-images-amazon.com/images/I/818xVihyFwL._SL1500_.jpg', '1');
+
+
+
+
