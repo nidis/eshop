@@ -56,35 +56,6 @@ public class CartController {
         return ResponseEntity.ok(cartResource);
     }
 
-/*    @DeleteMapping(value = "/{cartId}/item", produces = {"application/hal+json"})   //cart/1/item?id=2
-    public ResponseEntity<?> removeItem(@RequestParam(value = "id") Long id, @PathVariable(value = "cartId") Long cartId) {
-        Optional<CartItem> cartItem = cartItemService.findByIdAndCartId(id, cartId);
-
-        if(cartItem.isPresent()) {
-            log.info("item deleted");
-            cartItemService.delete(cartItem.get());
-        } else {
-            log.info("item not found");
-            return ResponseEntity.ok(HttpStatus.NOT_FOUND);
-        }
-
-        return ResponseEntity.ok(HttpStatus.OK);
-    }*/
-
-    @DeleteMapping(value = "/{cartId}/", produces = {"application/hal+json"})
-    public ResponseEntity<?> clearCart(@PathVariable Long cartId, @RequestParam(value = "id") Optional<Long> itemId, HttpServletRequest req) {
-        String cartSessionId = getCookie(req, CART_SESSION_ID);
-        String ipAddress = req.getLocalAddr();
-
-        Optional<Cart> cart = cartService.findByIdAndSessionIdAndIpAddress(cartId, cartSessionId, ipAddress);
-
-        if (cartItemService.clearAllItems(cart) || cartItemService.clearItem(itemId, cartId)) {
-            return ResponseEntity.ok(HttpStatus.OK);
-        } else {
-            return ResponseEntity.ok(HttpStatus.NOT_FOUND);
-        }
-    }
-
     @PostMapping("add")
     public ResponseEntity<?> addProduct(@RequestParam(value = "product_id") Long productId,
                                         HttpServletResponse res, HttpServletRequest req) {
@@ -112,6 +83,20 @@ public class CartController {
         log.info("new cart created with cartId: {}, productId: {}", cart.get().getId(), product.getId());
 
         return ResponseEntity.ok(HttpStatus.OK);
+    }
+
+    @DeleteMapping(value = "/{cartId}/", produces = {"application/hal+json"})
+    public ResponseEntity<?> clearCart(@PathVariable Long cartId, @RequestParam(value = "item_id") Optional<Long> itemId, HttpServletRequest req) {
+        String cartSessionId = getCookie(req, CART_SESSION_ID);
+        String ipAddress = req.getLocalAddr();
+
+        Optional<Cart> cart = cartService.findByIdAndSessionIdAndIpAddress(cartId, cartSessionId, ipAddress);
+
+        if (cartItemService.clearAllItems(cart) || cartItemService.clearItem(itemId, cartId)) {
+            return ResponseEntity.ok(HttpStatus.OK);
+        } else {
+            return ResponseEntity.ok(HttpStatus.NOT_FOUND);
+        }
     }
 
     private String getCookie(HttpServletRequest req, String name) {
@@ -144,4 +129,6 @@ public class CartController {
             }
         }
     }
+
+    //todo: create discovert ms-service and add client/server logic
 }

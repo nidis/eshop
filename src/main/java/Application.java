@@ -11,6 +11,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @ComponentScan(basePackages = "com.nidis")
 @EnableJpaRepositories(basePackages = "com.nidis.eshop.repositories")
 @EntityScan(basePackages = "com.nidis.eshop.models")
+@EnableDiscoveryClient
 public class Application {
 
 	public static void main(String[] args) {
