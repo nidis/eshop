@@ -8,6 +8,7 @@ drop table if exists `order`;
 drop table if exists invoice;
 drop table if exists warehouse;
 drop table if exists image;
+drop table if exists session;
 
 create table address(
     id bigint not null auto_increment primary key,
@@ -70,6 +71,11 @@ create table image(
     id bigint not null auto_increment primary key,
     file_location varchar(400) null,
     product_id bigint not null);
+
+create table session(
+  id bigint not null primary key,
+  ipaddress VARCHAR(45) null,
+  time_created timestamp not null);
 
 alter table address add foreign key (customer_id) references customer(id);
 alter table cart add foreign key (customer_id) references customer(id);
